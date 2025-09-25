@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Play scout-boink</title>
+  <style>
+    html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif}
+    .wrap{height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+    button{padding:14px 24px;font-size:18px;border-radius:8px;border:1px solid #ccc;cursor:pointer}
+    button:active{transform:translateY(1px)}
+    .hint{font-size:13px;color:#666}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <button id="playBtn" type="button" aria-label="play sound">Boink!</button>
+    <div class="hint">파일명: <code>scout-boink.mp3</code> (같은 폴더에 위치)</div>
+  </div>
+
+  <audio id="sound" src="scout-boink.mp3" preload="auto"></audio>
+
+  <script>
+    const btn = document.getElementById('playBtn');
+    const audio = document.getElementById('sound');
+
+    btn.addEventListener('click', () => {
+      // 재생 위치를 처음으로 되돌리고 재생
+      try {
+        audio.currentTime = 0;
+      } catch (e) {
+        // 일부 브라우저에서 에러가 날 수 있음 — 무시
+      }
+      audio.play().catch(err => {
+        // 자동재생 제한 등으로 재생 실패하면 콘솔에 표시
+        console.warn('오디오 재생 실패:', err);
+      });
+    });
+
+    // 버튼에 키보드 접근성 추가: Enter/Space로도 재생
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        btn.click();
+      }
+    });
+  </script>
+</body>
+</html>
